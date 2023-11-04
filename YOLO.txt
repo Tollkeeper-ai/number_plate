@@ -1,0 +1,37 @@
+YOLOv5 uses CSP-Darknet53 as its backbone. 
+CSP-Darknet53 is just the convolutional network Darknet53 used as the backbone for YOLOv3
+to which the authors applied the Cross Stage Partial (CSP) network strategy.
+
+YOLO is a deep network, it uses residual and dense blocks in order to enable the flow of 
+information to the deepest layers and to overcome the vanishing gradient problem. 
+However one of the perks of using dense and residual blocks is the problem of redundant gradients.
+CSPNet helps tackling this problem by truncating the gradient flow. According to the authors of
+
+YOLOv5 employs CSPNet strategy to partition the feature map of the base layer into two parts and then merges
+them through a cross-stage hierarchy as shown in the figure bellow 
+
+2nd figure(picture)
+
+
+
+Applying this strategy comes with big advantages to YOLOv5, 
+since it helps reducing the number of parameters and helps reducing an important amount of 
+computation (less FLOPS) which lead to increasing the inference speed that is crucial parameter in real-time object detection models.
+
+Neck of YOLOv5
+YOLOv5 brought two major changes to the model neck. 
+First a variant of Spatial Pyramid Pooling (SPP) has been used, 
+and the Path Aggregation Network (PANet) has been modified by 
+incorporating the BottleNeckCSP in its architecture.
+
+Path Aggregation Network (PANet)
+PANet is a feature pyramid network, 
+it has been used in previous version of YOLO (YOLOv4) to improve information 
+flow and to help in the proper localization of pixels in the task of mask prediction. 
+In YOLOv5 this network has been modified by applying the CSPNet strategy to it as shown in the network's architecture figure.
+
+Spatial Pyramid Pooling (SPP)
+SPP block [4] performs an aggregation of the information that receives from the inputs and returns a fixed length output. 
+Thus it has the advantage of significantly increasing the receptive field and segregating the most relevant context features without lowering the speed of the network. 
+This block has been used in previous versions of YOLO (yolov3 and yolov4) to separate the most important features from the backbone, however in YOLOv5(6.0/6.1) SPPF has been used , 
+which is just another variant of the SPP block, to improve the speed of the network
